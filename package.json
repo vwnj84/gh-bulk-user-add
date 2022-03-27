@@ -1,0 +1,20 @@
+{
+  "name": "gh-bulk-user-add",
+  "version": "1.0.0",
+  "description": "Bulk-add users to GitHub repo",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "Mitch Ullman",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/plugin-retry": "^3.0.9",
+    "@octokit/plugin-throttling": "^3.6.2",
+    "@octokit/rest": "^18.12.0",
+    "command-line-args": "^5.2.1",
+    "command-line-usage": "^6.1.1",
+    "dotenv": "^16.0.0",
+    "fs": "^0.0.1-security",
+    "json2csv": "^5.0.7"
+  }
+}
