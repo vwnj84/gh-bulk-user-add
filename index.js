@@ -3,7 +3,7 @@ const fs = require('fs')
 const program = '-- Bulk GH User Add --'
 const commandLineArgs = require('command-line-args')
 const commandLineUsage = require('command-line-usage')
-const { Octokit } = require('@octokit/rest')
+const { Octokit } = require('@octokit/core')
 const { retry } = require('@octokit/plugin-retry')
 const { throttling } = require('@octokit/plugin-throttling')
 const MyOctokit = Octokit.plugin(retry, throttling)
@@ -103,23 +103,26 @@ const readFileLines = filename =>
 // Driver code
 let accounts = readFileLines(options.file);
 console.log(accounts)
-
+console.log(options.repo)
 let adds = []
 for (let account of accounts){
-    adds.push(github.rest.repos.addCollaborator({
-        owner: options.org,
-        repo: options.repo,
-        username: account,
-        permission: options.permission
-
-    }).then(res => {
-        console.log(`Successfully added ${account} to repo: ${res.data.html_url}`)
-    }).catch(e => {
-        console.log(adds[0])
-        console.log(`Error adding ${account} to repo ${options.repo} in org ${options.org} => ${e}`)
-    })
-    )
+    adds.push(addAccount(account))
 }
 (async () => {
     await Promise.all(adds)
 })()
+
+async function addAccount(accountName){
+    return await github.rest.repos.addCollaborator({
+        owner: options.org,
+        repo: options.repo,
+        username: accountName,
+    //     permission: options.permission
+    }).then(res => {
+        console.log(`Successfully added ${accountName}`)
+    }).catch(e => {
+        console.log(adds[0])
+        console.log(`Error adding ${accountName} to repo ${options.repo} in org ${options.org} => ${e}`)
+    })
+
+}
