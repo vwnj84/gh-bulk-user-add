@@ -117,7 +117,7 @@ async function addAccount(accountName){
         owner: options.org,
         repo: options.repo,
         username: accountName,
-    //     permission: options.permission
+        permission: options.permission
     }).then(res => {
         console.log(`Successfully added ${accountName}`)
     }).catch(e => {
